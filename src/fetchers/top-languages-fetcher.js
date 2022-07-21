@@ -1,7 +1,12 @@
-const { request, logger } = require("../common/utils");
+// @ts-check
+const { request, logger, MissingParamError } = require("../common/utils");
 const retryer = require("../common/retryer");
 require("dotenv").config();
 
+/**
+ * @param {import('Axios').AxiosRequestHeaders} variables
+ * @param {string} token
+ */
 const fetcher = (variables, token) => {
   return request(
     {
@@ -33,8 +38,13 @@ const fetcher = (variables, token) => {
   );
 };
 
-async function fetchTopLanguages(username, exclude_repo = [], include_forks = false) {
-  if (!username) throw Error("Invalid username");
+/**
+ * @param {string} username
+ * @param {string[]} exclude_repo
+ * @returns {Promise<import("./types").TopLangData>}
+ */
+async function fetchTopLanguages(username, exclude_repo = []) {
+  if (!username) throw new MissingParamError(["username"]);
 
   repositories_filter = "ownerAffiliations: OWNER";
   if (!include_forks) repositories_filter += ', isFork: false' // fetch only owner repos & not forks
