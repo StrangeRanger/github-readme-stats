@@ -43,7 +43,7 @@ const fetcher = (variables, token) => {
  * @param {string[]} exclude_repo
  * @returns {Promise<import("./types").TopLangData>}
  */
-async function fetchTopLanguages(username, exclude_repo = []) {
+async function fetchTopLanguages(username, exclude_repo = [], include_forks = false) {
   if (!username) throw new MissingParamError(["username"]);
 
   repositories_filter = "ownerAffiliations: OWNER";
