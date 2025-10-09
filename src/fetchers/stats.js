@@ -1,16 +1,13 @@
 // @ts-check
+
 import axios from "axios";
 import * as dotenv from "dotenv";
 import githubUsernameRegex from "github-username-regex";
 import { calculateRank } from "../calculateRank.js";
 import { retryer } from "../common/retryer.js";
-import {
-  CustomError,
-  logger,
-  MissingParamError,
-  request,
-  wrapTextMultiline,
-} from "../common/utils.js";
+import { logger, request, wrapTextMultiline } from "../common/utils.js";
+import { excludeRepositories } from "../common/envs.js";
+import { CustomError, MissingParamError } from "../common/error.js";
 
 dotenv.config();
 
@@ -297,7 +294,8 @@ const fetchStats = async (
   if (include_merged_pull_requests) {
     stats.totalPRsMerged = user.mergedPullRequests.totalCount;
     stats.mergedPRsPercentage =
-      (user.mergedPullRequests.totalCount / user.pullRequests.totalCount) * 100;
+      (user.mergedPullRequests.totalCount / user.pullRequests.totalCount) *
+        100 || 0;
   }
   stats.totalReviews = user.reviews.totalPullRequestReviewContributions;
   stats.totalIssues = user.openIssues.totalCount + user.closedIssues.totalCount;
@@ -311,7 +309,8 @@ const fetchStats = async (
   stats.contributedTo = user.repositoriesContributedTo.totalCount;
 
   // Retrieve stars while filtering out repositories to be hidden.
-  let repoToHide = new Set(exclude_repo);
+  const allExcludedRepos = [...exclude_repo, ...excludeRepositories];
+  let repoToHide = new Set(allExcludedRepos);
 
   stats.totalStars = user.repositories.nodes
     .filter((data) => {

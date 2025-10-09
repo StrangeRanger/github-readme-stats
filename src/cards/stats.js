@@ -1,9 +1,10 @@
 // @ts-check
+
 import { Card } from "../common/Card.js";
+import { CustomError } from "../common/error.js";
 import { I18n } from "../common/I18n.js";
 import { icons, rankIcon } from "../common/icons.js";
 import {
-  CustomError,
   clampValue,
   flexLayout,
   getCardColors,
@@ -365,8 +366,10 @@ const renderStatsCard = (stats, options = {}) => {
   };
 
   const longLocales = [
+    "bg",
     "de",
     "es",
+    "fil",
     "fr",
     "id",
     "ml",
@@ -377,6 +380,9 @@ const renderStatsCard = (stats, options = {}) => {
     "pt-pt",
     "ru",
     "sr",
+    "sr-latn",
+    "sw",
+    "ta",
     "uk-ua",
     "uz",
     "zh-tw",
