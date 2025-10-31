@@ -1,8 +1,8 @@
-<p align="center">
- <img width="100px" src="https://res.cloudinary.com/anuraghazra/image/upload/v1594908242/logo_ccswme.svg" align="center" alt="GitHub Readme Stats" />
- <h2 align="center">GitHub Readme Stats</h2>
- <p align="center">Get dynamically generated GitHub stats on your READMEs!</p>
-</p>
+<div align="center">
+  <img src="https://res.cloudinary.com/anuraghazra/image/upload/v1594908242/logo_ccswme.svg" width="100px" alt="GitHub Readme Stats" />
+  <h1 style="font-size: 28px; margin: 10px 0;">GitHub Readme Stats</h1>
+  <p>Get dynamically generated GitHub stats on your READMEs!</p>
+</div>
 
 <p align="center">
   <a href="https://github.com/anuraghazra/github-readme-stats/actions">
@@ -385,6 +385,7 @@ If we don't support your language, please consider contributing! You can find mo
 | `disable_animations` | Disables all animations in the card. | boolean | `false` |
 | `ring_color` | Color of the rank circle. | string (hex color) | `2f80ed` |
 | `number_format` | Switches between two available formats for displaying the card values `short` (i.e. `6.6k`) and `long` (i.e. `6626`). | enum | `short` |
+| `number_precision` | Enforce the number of digits after the decimal point for `short` number format. Must be an integer between 0 and 2. Will be ignored for `long` number format. | integer (0, 1 or 2) | `null` |
 | `show` | Shows [additional items](#showing-additional-individual-stats) on stats card (i.e. `reviews`, `discussions_started`, `discussions_answered`, `prs_merged` or `prs_merged_percentage`). | string (comma-separated values) | `null` |
 | `commits_year` | Filters and counts only commits made in the specified year. | integer _(YYYY)_ | `<current year> (one year to date)` |
 
@@ -889,11 +890,42 @@ Since the GitHub API only allows 5k requests per hour, my `https://github-readme
 
 GitHub Readme Stats provides several environment variables that can be used to customize the behavior of your self-hosted instance. These include:
 
-*   `CACHE_SECONDS`: Sets the cache duration in seconds for the generated cards. This variable takes precedence over the default cache timings for the public instance. You can also set it to `0` to disable caching completely. If this variable is not set, the default cache duration is 24 hours (86,400 seconds).
-*   `WHITELIST`: A comma-separated list of GitHub usernames that are allowed to access your instance. If this variable is not set, all usernames are allowed.
-*   `GIST_WHITELIST`: A comma-separated list of GitHub gist IDs that are allowed to be accessed on your instance. If this variable is not set, all gist IDs are allowed.
-*   `EXCLUDE_REPO`: A comma-separated list of repositories that will be excluded from stats and top languages cards on your instance. This allows repository exclusion without exposing repository names in public URLs. This enhances privacy for self-hosted instances that include private repositories in stats cards.
-*   `FETCH_MULTI_PAGE_STARS`: When set to `true`, this enables fetching all starred repositories for accurate star counts, especially for users with more than 100 repositories. This may increase response times and API points usage, so it is disabled on the public instance.
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Supported values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>CACHE_SECONDS</code></td>
+      <td>Sets the cache duration in seconds for the generated cards. This variable takes precedence over the default cache timings for the public instance. If this variable is not set, the default cache duration is 24 hours (86,400 seconds).</td>
+      <td>Any positive integer or <code>0</code> to disable caching</td>
+    </tr>
+    <tr>
+      <td><code>WHITELIST</code></td>
+      <td>A comma-separated list of GitHub usernames that are allowed to access your instance. If this variable is not set, all usernames are allowed.</td>
+      <td>Comma-separated GitHub usernames</td>
+    </tr>
+    <tr>
+      <td><code>GIST_WHITELIST</code></td>
+      <td>A comma-separated list of GitHub Gist IDs that are allowed to be accessed on your instance. If this variable is not set, all Gist IDs are allowed.</td>
+      <td>Comma-separated GitHub Gist IDs</td>
+    </tr>
+    <tr>
+      <td><code>EXCLUDE_REPO</code></td>
+      <td>A comma-separated list of repositories that will be excluded from stats and top languages cards on your instance. This allows repository exclusion without exposing repository names in public URLs. This enhances privacy for self-hosted instances that include private repositories in stats cards.</td>
+      <td>Comma-separated repository names</td>
+    </tr>
+    <tr>
+      <td><code>FETCH_MULTI_PAGE_STARS</code></td>
+      <td>Enables fetching all starred repositories for accurate star counts, especially for users with more than 100 repositories. This may increase response times and API points usage, so it is disabled on the public instance.</td>
+      <td><code>true</code> or <code>false</code></td>
+    </tr>
+  </tbody>
+</table>
 
 See [the Vercel documentation](https://vercel.com/docs/concepts/projects/environment-variables) on adding these environment variables to your Vercel instance.
 
